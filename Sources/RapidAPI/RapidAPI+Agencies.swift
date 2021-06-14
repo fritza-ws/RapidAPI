@@ -17,10 +17,10 @@ extension RapidAPI {
         public let rawValue: Int
         public init(rawValue: Int) { self.rawValue = rawValue }
 
-        static let cta = Agencies(rawValue: 1)
-        static let uchicago = Agencies(rawValue: 2)
-        static let all: Agencies  = [.cta, .uchicago]
-        static let none: Agencies = []
+        public static let cta = Agencies(rawValue: 1)
+        public static let uchicago = Agencies(rawValue: 2)
+        public static let all: Agencies  = [.cta, .uchicago]
+        public static let none: Agencies = []
 
         public var onlyOneAgency: Bool {
             self.rawValue != Agencies.none.rawValue &&
