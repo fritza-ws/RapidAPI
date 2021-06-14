@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RapidAPI
 
 extension RapidAPI {
     /// An `OptionSet` selecting the transit agencies the application supports.
