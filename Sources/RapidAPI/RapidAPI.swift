@@ -13,53 +13,6 @@ enum RapidAPI: String {
     case host = "transloc-api-1-2.p.rapidapi.com"
     case apiKey = "624c197464msh7f14d937c6272dbp1767b3jsnba315478bdc8"
     
-    /// The queries TransLoc's OpenAPI 1.2 supports
-    public enum Verbs: String {
-        case agencies, routes, segments, vehicles, stops
-        case arrivalEstimates = "arrival-estimates"
-        
-        var baseURL: String {
-            "https://\(RapidAPI.host.rawValue)/\(self.rawValue).json"
-        }
-        
-        // FIXME: arrivalEstimates need list of agencu
-        //        list of agencies OR list of routes OR list of stops
-        static let routeQualifiable: Set<Verbs> = [.segments, .vehicles]
-        //, .stops, .arrivalEstimates]
-        var isRouteQualifiable: Bool { Self.routeQualifiable.contains(self) }
-        
-        public func request(agencies: Agencies,
-                     routes: [String]? = nil)
-            throws -> URLRequest {
-                let url = try self.url(agencies: agencies, routes: routes)
-                var retval = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
-                retval.allHTTPHeaderFields = headers
-                return retval
-        }
-        
-        public func url(agencies: Agencies, routes: [String]? = nil) throws -> URL {
-            guard !agencies.isEmpty else { throw Errors.mustSpecifyAgency(self) }
-            var fragments: [String] = [agencies.fragment]
-            
-            if let routeList = routes,
-                !routeList.isEmpty{
-                guard isRouteQualifiable else { throw Errors.mustNotSpecifyRoutes(self) }
-                let routeFragment = "routes=" + routeList.joined(separator: ",")
-                fragments.append(routeFragment)
-            }
-            
-            let parameterFragment = fragments.joined(separator: "&")
-            
-            let urlString = baseURL + "?"
-                + parameterFragment
-            guard let retval =
-                URL(string: urlString) else {
-                    throw Errors.badURL(urlString)
-            }
-            return retval
-        }
-    }
-    
     /// The transit agencies the application supports.
     ///
     /// These are hard-coded to UChicago (`.uchicago`) and CTA (`.cta`). There are allso `.all` and `.none` sets.
@@ -163,7 +116,7 @@ enum RapidAPI: String {
         return retval
     }
     
-    private static let headers = [
+    internal static let headers = [
         "x-rapidapi-host": RapidAPI.host.rawValue,
         "x-rapidapi-key": RapidAPI.apiKey.rawValue
     ]
