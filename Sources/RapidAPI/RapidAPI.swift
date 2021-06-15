@@ -74,7 +74,7 @@ extension RapidAPI {
 
     static var configuration: [String:String] = [:]
     /// Whether the configuration file has been read.
-    static var isConfigured: Bool { !configuration.isEmpty }
+    public static var isConfigured: Bool { !configuration.isEmpty }
 
     // MARK: from Dictionary
     /// Retain the configuration dictionary
@@ -122,7 +122,7 @@ extension RapidAPI {
     /// The `String` value for the configuration setting keyed by `self.rawValue`
     /// - Throws: `Errors.notConfigured` if the configuration file has not been loaded. `Errors.incompleteConfiguration` if no value is present for the requested key.
     /// - Returns: The `String` value of the requested configuration item.
-    func configurationValue() throws -> String  {
+    public func configurationValue() throws -> String  {
         guard !Self.configuration.isEmpty else {
             throw Errors.notConfigured
         }
