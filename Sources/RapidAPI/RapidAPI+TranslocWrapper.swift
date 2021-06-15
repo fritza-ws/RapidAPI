@@ -29,7 +29,7 @@ public struct TranslocWrapper<T:Decodable>: Decodable, CustomStringConvertible {
             ?? Date.distantPast
     }
 
-    let data: T
+    public let data: T
 
     public var description: String {
         var retval = "TranslocWrapper:\n"
