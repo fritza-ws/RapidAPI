@@ -23,7 +23,7 @@ let package = Package(
             name: "RapidAPI",
             dependencies: [],
             resources: [
-                .process("Resouces/RapidAPIKeys.pliat"),
+                .process("Resources/RapidAPIKeys.pliat"),
             ]
         ),
         .testTarget(
