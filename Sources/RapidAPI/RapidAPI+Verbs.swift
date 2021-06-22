@@ -21,7 +21,8 @@ extension RapidAPI {
         case arrivalEstimates = "arrival-estimates"
 
         public var baseURL: String {
-            "https://\(RapidAPI.host.rawValue)/\(self.rawValue).json"
+            let configValue = try! RapidAPI.host.configurationValue()
+            return "https://\(configValue)/\(self.rawValue).json"
         }
 
         static let routeQualifiable: Set<Verbs> = [.segments, .vehicles]
