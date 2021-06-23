@@ -12,6 +12,10 @@ extension RapidAPI {
     /// An `OptionSet` selecting the transit agencies the application supports.
     ///
     /// These are hard-coded to UChicago (`.uchicago`) and CTA (`.cta`). There are allso `.all` and `.none` sets.
+    /// - warning: `Agencies` is not an `enum`. Initializing
+    ///            from an out-of-bounds raw value will
+    ///            produce a non-nil result. Check `isValid`
+    ///            instead.
     public struct Agencies: OptionSet {
         // FIXME: Reconcile with the hand-initialization in APIAgencies.swift
         public let rawValue: Int
@@ -21,6 +25,12 @@ extension RapidAPI {
         public static let uchicago = Agencies(rawValue: 2)
         public static let all: Agencies  = [.cta, .uchicago]
         public static let none: Agencies = []
+
+        public var isValid: Bool {
+            var lhs = self
+            lhs.subtract(Self.all)
+            return lhs.isEmpty
+        }
 
         public var onlyOneAgency: Bool {
             self.rawValue != Agencies.none.rawValue &&
