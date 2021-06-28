@@ -41,7 +41,7 @@
                           "\(case1.rawValue) should be 0 ≤ rawValue ≤ 3")
             }
             XCTAssertEqual(neither.rawValue, 0,
-                           ".neither should have rawValue == 0"
+                           ".none should have rawValue == 0"
                            )
             XCTAssertEqual(cta.rawValue, 1,
                            ".cta should have rawValue == 1"
