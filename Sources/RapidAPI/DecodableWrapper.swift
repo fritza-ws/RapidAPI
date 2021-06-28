@@ -28,8 +28,6 @@ public struct RouteID: RawRepresentable & Decodable & Hashable
         let oneString = try decoder.singleValueContainer()
         rawValue = try oneString.decode(String.self)
     }
-//    public static func == (lhs: RouteID, rhs: RouteID) -> Bool { lhs.rawValue == rhs.rawValue }
-//    public func hash(into hasher: inout Hasher) { hasher.combine(rawValue) }
 }
 
 

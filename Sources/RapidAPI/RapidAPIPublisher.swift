@@ -1,5 +1,5 @@
 //
-//  TranslocPublisher.swift
+//  RapidAPIPublisher.swift
 //  UCMaps
 //
 //  Created by Fritz Anderson on 6/2/21.
@@ -24,7 +24,7 @@ import Combine
 
 /// A Combine `Publisher` with `Output` being a generic `Payload` value.
 ///
-/// Implemented in terms of `TranslocWrapper` and `URLSession.DataTaskPublisher`.
+/// Implemented in terms of `RapidAPIWrapper` and `URLSession.DataTaskPublisher`.
 ///
 /// # Errors
 ///
@@ -33,13 +33,13 @@ import Combine
 /// * Whatever might come out of the data task publisher.
 
 public
-final class TranslocPublisher<Payload>
+final class RapidAPIPublisher<Payload>
 where Payload: Decodable
 // : Publisher
 {
-    /// The request used to fetch the `TranslocWrapper<Payload>`.
+    /// The request used to fetch the `RapidAPIWrapper<Payload>`.
     let request: URLRequest
-    /// (convenience) the JSON -> `TranslocWrapper<Payload>` decoder
+    /// (convenience) the JSON -> `RapidAPIWrapper<Payload>` decoder
     let decoder: JSONDecoder = {
         let retval = JSONDecoder()
         return retval
@@ -67,7 +67,7 @@ where Payload: Decodable
                 return data
             }
             // This is where you'd inject JSON data for testing.
-            .decode(type: TranslocWrapper<Payload>.self, decoder: self.decoder)
+            .decode(type: RapidAPIWrapper<Payload>.self, decoder: self.decoder)
             .map { wrapped in return wrapped.payload }
             .eraseToAnyPublisher()
         return retval

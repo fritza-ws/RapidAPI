@@ -1,5 +1,5 @@
 //
-//  RapidAPI+TranslocWrapper.swift
+//  RapidAPI+RapidAPIWrapper.swift
 //  UCMaps
 //
 //  Created by Fritz Anderson on 6/2/21.
@@ -15,10 +15,10 @@ private let dateFormatter = ISO8601DateFormatter()
 /// `JSONDecoder` for an API result should specify the payload type in the generic parameter:
 ///
 ///     let allRoutes =
-///         try jsonDecoder.decode(TranslocWrapper<[String:[TranslocRoute]]>.self,
+///         try jsonDecoder.decode(RapidAPIWrapper<[String:[TranslocRoute]]>.self,
 ///                                from: routeData)
 /// The payload public structure willl then be in `allRoutes.data`.
-public struct TranslocWrapper<T:Decodable>: Decodable, CustomStringConvertible {
+public struct RapidAPIWrapper<T:Decodable>: Decodable, CustomStringConvertible {
     let rate_limit: Int
     let expires_in: Double
     let api_latest_version: String
@@ -32,7 +32,7 @@ public struct TranslocWrapper<T:Decodable>: Decodable, CustomStringConvertible {
     public let data: T
 
     public var description: String {
-        var retval = "TranslocWrapper:\n"
+        var retval = "RapidAPIWrapper:\n"
         print("\tgenerated:", generated_on, "expires in", expires_in,
               "sec  Rate limit:", rate_limit, to: &retval)
         print("\tAPI version:", api_version,
