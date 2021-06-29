@@ -21,6 +21,7 @@ extension RapidAPI {
         case noConfigurationFile(String)
         case incompleteConfiguration(String)
         case notAFileURL(String)
+        case emptyDataFile
 
         // MARK: Transaction
         case badURL(String)
@@ -64,6 +65,8 @@ extension RapidAPI {
                 return "RapidAPI.configuration not yet loaded."
             case .notAFileURL(let url):
                 return "Not a file URL (\(url))"
+            case .emptyDataFile:
+                return "Data file (usu. configuration) is empty."
             }
 
         }

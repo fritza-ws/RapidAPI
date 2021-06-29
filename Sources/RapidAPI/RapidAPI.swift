@@ -92,6 +92,7 @@ extension RapidAPI {
     /// - Parameter data: Intended to be the `Data` content of the configuration plist file.
     /// - Throws: Decoding errors from `PropertyListDecoder`
     public static func configure(data: Data) throws {
+        guard !data.isEmpty else { throw Errors.emptyDataFile }
         let dict = try PropertyListDecoder()
             .decode([String:String].self, from: data)
         Self.configure(dictionary: dict)
