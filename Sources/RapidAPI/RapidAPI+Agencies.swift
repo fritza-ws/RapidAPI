@@ -9,6 +9,7 @@
 import Foundation
 
 extension RapidAPI {
+    // TODO: Take it out of the struct; the module name is enough to isolate it.
     /// An `OptionSet` selecting the transit agencies the application supports.
     ///
     /// These are hard-coded to UChicago (`.uchicago`) and CTA (`.cta`). There are allso `.all` and `.none` sets.
@@ -16,7 +17,7 @@ extension RapidAPI {
     ///            from an out-of-bounds raw value will
     ///            produce a non-nil result. Check `isValid`
     ///            instead.
-    public struct Agencies: OptionSet {
+    public struct Agencies: OptionSet, Hashable {
         // FIXME: Reconcile with the hand-initialization in APIAgencies.swift
         public let rawValue: Int
         public init(rawValue: Int) { self.rawValue = rawValue }
@@ -25,6 +26,8 @@ extension RapidAPI {
         public static let uchicago = Agencies(rawValue: 2)
         public static let all: Agencies  = [.cta, .uchicago]
         public static let none: Agencies = []
+
+        public static let eachSingle: [Agencies] = [.uchicago, .cta]
 
         public var isValid: Bool {
             var lhs = self
@@ -95,6 +98,10 @@ extension RapidAPI {
             case .cta     : return 1
             default       : return nil
             }
+        }
+
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(rawValue)
         }
     }
 }
