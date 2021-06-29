@@ -88,5 +88,13 @@ extension RapidAPI {
         public var fragment: String {
             "agencies=\(number)"
         }
+
+        public var index: Int? {
+            switch self {
+            case .uchicago: return 0
+            case .cta     : return 1
+            default       : return nil
+            }
+        }
     }
 }
