@@ -50,6 +50,15 @@ extension RapidAPI {
             )
         }
 
+        public var idAsInt: Int {
+            preconditionOnlyOne()
+            switch self {
+            case .cta:      return 104
+            case .uchicago: return 100
+            default:        preconditionFailure()
+            }
+        }
+
         public var ID: String? {
             preconditionOnlyOne()
             switch self {
