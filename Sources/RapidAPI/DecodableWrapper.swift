@@ -2,7 +2,8 @@
 //  DecodableWrapper.swift
 //  Placeholder-main
 //
-//  Created by Fritz Anderson on 6/24/21.
+//  Created by Fritz Anderson on 7/2/21.
+//  Copyright © 2021 The University of Chicago. All rights reserved.
 //
 
 import Foundation
@@ -28,6 +29,12 @@ public struct RouteID: RawRepresentable & Decodable & Hashable
         let oneString = try decoder.singleValueContainer()
         rawValue = try oneString.decode(String.self)
     }
+//    public static func == (lhs: RouteID, rhs: RouteID) -> Bool { lhs.rawValue == rhs.rawValue }
+//    public func hash(into hasher: inout Hasher) { hasher.combine(rawValue) }
+}
+
+extension RouteID: CustomStringConvertible {
+    public var description: String { "RouteID(\(rawValue))" }
 }
 
 
@@ -37,6 +44,11 @@ public struct SegmentID: DecodableWrapper {
 }
 
 public struct RouteType: DecodableWrapper {
+    public let rawValue: String
+    public init(rawValue: String) { self.rawValue = rawValue }
+}
+
+public struct StopID: DecodableWrapper {
     public let rawValue: String
     public init(rawValue: String) { self.rawValue = rawValue }
 }
