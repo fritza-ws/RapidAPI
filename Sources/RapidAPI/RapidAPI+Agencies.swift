@@ -59,11 +59,11 @@ extension RapidAPI {
             }
         }
 
-        init?(agencyIDasInt: Int) {
-            switch agencyIDasInt {
+        public init?(translocAgencyID: Int) {
+            switch translocAgencyID {
             case 100:   self = .uchicago
             case 104:   self = .cta
-            default:    preconditionFailure("\(#function) - Attempt to initialize Agency with unknown transloc ID \(agencyIDasInt)")
+            default:    preconditionFailure("\(#function) - Attempt to initialize Agency with unknown transloc ID \(translocAgencyID)")
             }
         }
 
