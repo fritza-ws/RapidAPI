@@ -58,7 +58,7 @@ import Foundation
  * `hash(into:)`
  * `hashValue`
  */
-public protocol DecodableWrapper: RawRepresentable // & Decodable & Hashable
+public protocol DecodableWrapper: RawRepresentable & Hashable // & Decodable & Hashable
 where RawValue: Decodable & Hashable { }
 
 extension DecodableWrapper {
