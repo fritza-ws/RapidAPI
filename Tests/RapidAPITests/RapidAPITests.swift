@@ -25,11 +25,11 @@
                 for case2 in eachCase {
                     if case1.rawValue == case2.rawValue {
                         XCTAssertEqual(case1, case2,
-                        "Should be same: \(case1.rawValue), \(case2.rawValue)")
+                                       "Should be same: \(case1.rawValue), \(case2.rawValue)")
                     }
                     else {
                         XCTAssertNotEqual(case1, case2,
-                        "Should be different: \(case1.rawValue), \(case2.rawValue)")
+                                          "Should be different: \(case1.rawValue), \(case2.rawValue)")
                     }
                 }
             }
@@ -42,16 +42,16 @@
             }
             XCTAssertEqual(neither.rawValue, 0,
                            ".none should have rawValue == 0"
-                           )
+            )
             XCTAssertEqual(cta.rawValue, 1,
                            ".cta should have rawValue == 1"
-                           )
+            )
             XCTAssertEqual(uChicago.rawValue, 2,
                            ".uChicago should have rawValue == 2"
-                           )
+            )
             XCTAssertEqual(both.rawValue, 3,
                            ".all should have rawValue == 3"
-                           )
+            )
         }
 
         func testAlgebra() {
@@ -113,7 +113,7 @@
                 }
                 else {
                     XCTAssertFalse(fromRaw.isValid,
-                              "Raw value of \(i) should NOT produce a valid Agency")
+                                   "Raw value of \(i) should NOT produce a valid Agency")
                 }
             }
         }

@@ -58,17 +58,22 @@ import Foundation
  * `hash(into:)`
  * `hashValue`
  */
-public protocol DecodableWrapper: RawRepresentable & Hashable // & Decodable & Hashable
-where RawValue: Decodable & Hashable { }
+public protocol DecodableWrapper: RawRepresentable & Hashable & Codable // & Hashable
+where RawValue: Codable & Hashable { }
 
 extension DecodableWrapper {
 //    init(rawValue: RawValue) { self.init(rawValue) }
-//    public init(from decoder: Decoder) throws {
-//        let container = try decoder.singleValueContainer()
-//        let value = try container.decode(RawValue.self)
-//        self.init(rawValue: value)!
-//        // FIXME: Will we ever want a failable init(rawValue:)?
-//    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(RawValue.self)
+        self.init(rawValue: value)!
+        // FIXME: Will we ever want a failable init(rawValue:)?
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
 }
 
 public struct RouteID: RawRepresentable & Decodable & Hashable
