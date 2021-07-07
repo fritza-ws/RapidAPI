@@ -24,7 +24,7 @@ public enum RapidAPI:  String {
     /// - Throws: `.mustSpecifyAgency` if `agencies` is `.none`; `.mustNotSpecifyRoutes` if the `verb` does not support route filtering; and `.badURL` if no URL could be built from the query information (this should be a fatal error).
     /// - Returns: A `URL` representing the desired query.
     static public func url(verb: Verbs,
-                           agencies: Self.Agencies,
+                           agencies: Agencies,
                     routes: [String]? = nil)
         throws -> URL
     {
