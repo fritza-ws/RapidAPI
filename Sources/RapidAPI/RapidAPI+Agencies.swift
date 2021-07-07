@@ -139,7 +139,7 @@ public struct Agencies: OptionSet, Hashable {
     /// - parameter index: The index of the desired agency
     /// - prerequisite: The index is in-bounds for the single agencies.
     /// - todo: Index out-of-bounds is a logical error. Change this to a
-    init(fromIndex index: Int) {
+    public init(fromIndex index: Int) {
         switch index {
         case 0:     self.init(rawValue: Self.uchicago.rawValue)
         case 1:     self.init(rawValue: Self.cta.rawValue     )
