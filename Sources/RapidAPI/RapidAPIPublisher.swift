@@ -61,6 +61,11 @@ where Payload: Decodable
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw TLPublisherErrors.fatalMissingResponse
                 }
+
+                let contents = String(data: data, encoding: .utf8)
+                    ?? "Can't decode contents, data length \(data.count)"
+                print(response.url?.absoluteURL ?? "NO URL", contents)
+
                 let statusCode = httpResponse.statusCode
                 guard (200..<400).contains(statusCode) else {
                     throw TLPublisherErrors.badStatusCode(statusCode) }
