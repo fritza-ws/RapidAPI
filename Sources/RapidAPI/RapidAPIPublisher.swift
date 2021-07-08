@@ -54,18 +54,18 @@ where Payload: Decodable
         case fatalMissingResponse
     }
 
-    public lazy var publisher: AnyPublisher<Payload, Error> = {
+    public func publisher(printingProgress printing: Bool = false) -> AnyPublisher<Payload, Error> {
         let session = URLSession.shared
         let retval  = session.dataTaskPublisher(for: request)
             .tryMap { (data, response) -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw TLPublisherErrors.fatalMissingResponse
                 }
-
-                let contents = String(data: data, encoding: .utf8)
-                    ?? "Can't decode contents, data length \(data.count)"
-                print(response.url?.absoluteURL ?? "NO URL", contents)
-
+                if printing {
+                    let contents = String(data: data, encoding: .utf8)
+                        ?? "Can't decode contents, data length \(data.count)"
+                    print(response.url?.absoluteURL ?? "NO URL", contents)
+                }
                 let statusCode = httpResponse.statusCode
                 guard (200..<400).contains(statusCode) else {
                     throw TLPublisherErrors.badStatusCode(statusCode) }
@@ -76,7 +76,7 @@ where Payload: Decodable
             .map { wrapped in return wrapped.payload }
             .eraseToAnyPublisher()
         return retval
-    }()
+    }
     // Attaching a sink to publisher should initiate the request.
     // Why am I not using a Subject. At all. Usually I go there by instinct.
 
