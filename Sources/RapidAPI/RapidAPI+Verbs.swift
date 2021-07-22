@@ -25,7 +25,7 @@ extension RapidAPI {
             return "https://\(configValue)/\(self.rawValue).json"
         }
 
-        static let routeQualifiable: Set<Verbs> = [.segments, .vehicles]
+        static let routeQualifiable: Set<Verbs> = [.segments, .vehicles, .arrivalEstimates]
         /// Whether this `Verb` request type can include route IDs
         public var isRouteQualifiable: Bool { Self.routeQualifiable.contains(self) }
 
@@ -42,14 +42,15 @@ extension RapidAPI {
         /// - Throws: `Errors.notConfigured` if the configuration plist has not been read, `Errors.mustSpecifyAgencies` (obvious) , and `Errors.mustNotSpecifyRoutes` if `routes` is passed for an ineligible `Verb`.
         /// - Returns: The `URLRequest` accordingly.
         public func request(agencies: Agencies,
-                     routes: [String]? = nil)
-            throws -> URLRequest {
-                let url = try self.url(agencies: agencies, routes: routes)
-                var retval = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy,  timeoutInterval: 10)
+                            routes: [String]? = nil)
+        throws -> URLRequest {
+            let url = try self.url(agencies: agencies, routes: routes)
+            var retval = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy,  timeoutInterval: 10)
             retval.allHTTPHeaderFields = try RapidAPI.headers()
-                return retval
+            return retval
         }
 
+        
         /// A `URL` for this `Verb`'s request type
         ///
         /// - precondition: `agencies` must not to be `.none`.
