@@ -109,3 +109,8 @@ public struct StopID: DecodableWrapper {
     public init(rawValue: String) { self.rawValue = rawValue }
 }
 
+public struct VehicleID: DecodableWrapper {
+    public let rawValue: String
+    public init(rawValue: String) { self.rawValue = rawValue }
+}
+
