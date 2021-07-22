@@ -29,6 +29,9 @@ extension RapidAPI {
         /// Whether this `Verb` request type can include route IDs
         public var isRouteQualifiable: Bool { Self.routeQualifiable.contains(self) }
 
+        static let stopQualifiable: Set<Verbs> = [.arrivalEstimates]
+        public var isStopQualifiable: Bool { Self.stopQualifiable.contains(self) }
+
         // MARK: URL/URLRequest
         /// A `URLRequest` for this `Verb`'s request type
         ///
@@ -39,12 +42,14 @@ extension RapidAPI {
         /// - Parameters:
         ///   - agencies: `OptionSet` for the `Agencies` to include in the query.
         ///   - routes: Optional list of route IDs to apply the query to. Default is `nil`.
-        /// - Throws: `Errors.notConfigured` if the configuration plist has not been read, `Errors.mustSpecifyAgencies` (obvious) , and `Errors.mustNotSpecifyRoutes` if `routes` is passed for an ineligible `Verb`.
+        ///   - stops: Optional list of stop IDs to apply the query to. Default is `nil`.
+        /// - Throws: `Errors.notConfigured` if the configuration plist has not been read, `Errors.mustSpecifyAgencies` (obvious) , and `Errors.mustNotSpecifyRoutes` if `routes` is passed for an ineligible `Verb`. `.mustNotSpecifyStops` unless the `Verb` is `arrivalTimes`.
         /// - Returns: The `URLRequest` accordingly.
         public func request(agencies: Agencies,
-                            routes: [String]? = nil)
+                            routes: [String]? = nil,
+                            stops:  [String]? = nil)
         throws -> URLRequest {
-            let url = try self.url(agencies: agencies, routes: routes)
+            let url = try self.url(agencies: agencies, routes: routes, stops: stops)
             var retval = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy,  timeoutInterval: 10)
             retval.allHTTPHeaderFields = try RapidAPI.headers()
             return retval
@@ -58,9 +63,10 @@ extension RapidAPI {
         /// - Parameters:
         ///   - agencies: `OptionSet` for the `Agencies` to include in the query.
         ///   - routes: Optional list of route IDs to apply the query to. Default is `nil`.
-        /// - Throws: `Errors.notConfigured` if the configuration plist has not been read, `Errors.mustSpecifyAgencies` (obvious) , and `Errors.mustNotSpecifyRoutes` if `routes` is passed for an ineligible `Verb`.
+        ///   - stops: Optional list of stop IDs to apply the query to. Default is `nil`.
+        /// - Throws: `Errors.notConfigured` if the configuration plist has not been read, `Errors.mustSpecifyAgencies` (obvious) , and `Errors.mustNotSpecifyRoutes` if `routes` is passed for an ineligible `Verb`.  `.mustNotSpecifyStops` unless the `Verb` is `arrivalTimes`.
         /// - Returns: The `URL` accordingly.
-        public func url(agencies: Agencies, routes: [String]? = nil) throws -> URL {
+        public func url(agencies: Agencies, routes: [String]? = nil, stops: [String]? = nil) throws -> URL {
             guard !agencies.isEmpty else { throw Errors.mustSpecifyAgency(self) }
             var fragments: [String] = [agencies.fragment]
 
@@ -69,6 +75,13 @@ extension RapidAPI {
                 guard isRouteQualifiable else { throw Errors.mustNotSpecifyRoutes(self) }
                 let routeFragment = "routes=" + routeList.joined(separator: ",")
                 fragments.append(routeFragment)
+            }
+
+            if let stopList = stops,
+               !stopList.isEmpty {
+                guard isStopQualifiable else { throw Errors.mustNotSpecifyStops(self) }
+                let stopsFragment = "stops=" + stopList.joined(separator: ",")
+                fragments.append(stopsFragment)
             }
 
             let parameterFragment = fragments.joined(separator: "&")

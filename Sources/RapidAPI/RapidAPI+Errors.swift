@@ -28,6 +28,8 @@ extension RapidAPI {
         case mustSpecifyAgency(Verbs)
         case mustNotSpecifyRoutes(Verbs)
         case mustSpecifyRoutes
+        case mustNotSpecifyStops(Verbs)
+        case mustSpecifyStops
         case queryFailed(URL)
 
         // MARK: Should be fatal
@@ -45,8 +47,12 @@ extension RapidAPI {
                 return "Agency must be specified for \(verb.rawValue)"
             case .mustNotSpecifyRoutes(let verb):
                 return "\(verb.rawValue) must not specify routes."
+            case .mustNotSpecifyStops(let verb):
+                return "\(verb.rawValue) must not specify stops."
             case .mustSpecifyRoutes:
                 return "API client can't accept empty route array."
+            case .mustSpecifyStops:
+                return "API client can't accept empty stops array."
             case .queryFailed(let url):
                 return "Could not get a response to “\(url.absoluteString)”"
 
