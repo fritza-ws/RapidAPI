@@ -19,7 +19,7 @@ import Foundation
 ///            produce a non-nil result. Check `isValid`
 ///            instead.
 public struct Agencies: OptionSet, Hashable {
-    static let countOfAgencies = 2
+    public static let countOfAgencies = 2
 
     public let rawValue: Int
     public init(rawValue: Int) {
